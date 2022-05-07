@@ -1,11 +1,17 @@
 <?php
 $page_no_redirection = '1';
 
-include ('includes/header.php');
+include ('../shared/header.php');
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 $login = 1;
+
+if(isset($_SESSION['role'])){
+	if($_SESSION['role'] == 4){
+		$admin = 1;
+	}
+}
 
 if(isset($_POST['login'])){
 	
@@ -55,14 +61,25 @@ if(isset($_POST['login'])){
 	if($_POST['mdp'] != $_POST['mdp2'] ){
 		$login = 2;
 	}
+	if(isset($admin)){
+		if($_POST['role'] == 0){
+			$login = 15;
+		}
+	}
 }
 // req nouveau pré-compte
 if(isset($_POST['login']) && $login == 0 ){
 	
 	//echo"<script>window.alert('$IDSOCIETE');</script>";
+	if(!isset($admin)){
+		$url = "http://localhost/HelpdeskSolution/front/create_compte/'".addslashes($_POST['nom'])."'/'".addslashes($_POST['prenom'])."'/'".addslashes($_POST['login'])."'/'".addslashes($_POST['mdp'])."'/'".addslashes($_POST['telephone'])."'/'".addslashes($_POST['mail'])."'/'$IDSOCIETE'/'3'";
+    	$raw = file_get_contents($url);
+	}else{
+		$url = "http://localhost/HelpdeskSolution/front/create_compte/'".addslashes($_POST['nom'])."'/'".addslashes($_POST['prenom'])."'/'".addslashes($_POST['login'])."'/'".addslashes($_POST['mdp'])."'/'".addslashes($_POST['telephone'])."'/'".addslashes($_POST['mail'])."'/'$IDSOCIETE'/".$_POST['role'];
+    	$raw = file_get_contents($url);
+		echo"<script>window.alert('test');</script>";
+	}
 	
-	$url = "http://localhost/HelpdeskSolution/front/create_compte/'".addslashes($_POST['nom'])."'/'".addslashes($_POST['prenom'])."'/'".addslashes($_POST['login'])."'/'".addslashes($_POST['mdp'])."'/'".addslashes($_POST['telephone'])."'/'".addslashes($_POST['mail'])."'/'$IDSOCIETE'/'1'";
-    $raw = file_get_contents($url);
 
 	//$email = $_POST['mail'];
     //$headers = "From: Helpdesk <web@hds.com>\r\n".
@@ -77,10 +94,15 @@ if(isset($_POST['login']) && $login == 0 ){
 	echo "
 		<div class='bloc_central'>
 			<h3>En attente de comfirmation</h3>
-			Veuillez confirmer l'e-mail de vérification que nous vous avons envoyé, vous pourrez vous connecter dès que l'adresse e-mail sera valide<br/><br/>
-			<a href='connexion.php' class='connexion'>Connection</a>
+			Veuillez confirmer l'e-mail de vérification que nous vous avons envoyé, vous pourrez vous connecter dès que l'adresse e-mail sera valide<br/><br/>";
+			if(isset($admin)){
+				echo"<a href='connexion.php?id=$sess' class='connexion'>Connection</a>";
+			}else{
+				echo"<a href='connexion.php' class='connexion'>Connection</a>";
+			}
+			echo"
 		</div>
-";
+	";
 }
 
 if(!isset($_POST['login']) || $login != 0 || !isset($_POST['conditions'])){
@@ -104,8 +126,18 @@ echo "	<div class='bloc_central_inscription'>
             	<br/><input type='text' name='telephone' placeholder='Telephone' class='input_login_page crea_mail'/><br/>
             	<br/><input type='text' name='entreprise' placeholder='Entreprise' class='input_login_page crea_entreprise'/><br/>
 				<br/><input type='text' name='code' placeholder='Code de l&apos;entreprise' class='input_login_page crea_entreprise'/><br/>
-				<br/><input type='text' name='fonction' placeholder='Fonction dans l&apos;entreprise' class='input_login_page crea_entreprise'/>
-";
+				<br/><input type='text' name='fonction' placeholder='Fonction dans l&apos;entreprise' class='input_login_page crea_entreprise'/>";
+				if(isset($admin)){
+					echo"
+						<br/><select name='role' class='selectpicker select_role'>
+							<option value='0'>Role</option>
+							<option value='3'>Utilisateur</option>
+							<option value='4'>Technicien</option>
+							<option value='1'>Manager</option>
+							<option value='2'>Admin</option>
+						</select><br/>
+					";
+				}
 
 				//----simple passage de login à autre chose que 0 selon le pb-----
 				if($login == 1 && isset($_POST['login'])){echo "<br/><div class='error'>Ce login est deja utilisé pour un autre compte</div>";}
@@ -122,6 +154,7 @@ echo "	<div class='bloc_central_inscription'>
 				if($login == 12 && isset($_POST['login'])){echo "<br/><div class='error'>the code does not correspond to the company</div>";}
 				if($login == 13 && isset($_POST['login'])){echo "<br/><div class='error'>You must fill in your Lastname</div>";}
 				if($login == 14 && isset($_POST['login'])){echo "<br/><div class='error'>You must fill in your Firstname</div>";}
+				if($login == 15 && isset($_POST['login'])){echo "<br/><div class='error'>Vous devez choisir un role pour créer se compte</div>";}
 
 echo "
 				<br/>
@@ -139,6 +172,6 @@ echo "
 
 
 
-include ('includes/footer.php');
+include ('../shared/footer.php');
 
 ?>

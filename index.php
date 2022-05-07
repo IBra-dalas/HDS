@@ -1,10 +1,12 @@
 <?php
+//variable empeche la redirection du system de connexion
 $page_no_redirection = '1';
-include ('includes/header.php');
+include ('Views/shared/header.php');
 
-if($_SESSION['login'] == TRUE && $_SESSION['role'] == 1){
-    include ('tableau_ticket.php');
+//si la connexion a été établi alors l'affichage du tableau
+if($_SESSION['login'] == TRUE){
+    include ('../HDS2/Views/ticket/tableau_ticket.php');
 }
 
-include ('includes/footer.php');
+include ('Views/shared/footer.php');
 ?>

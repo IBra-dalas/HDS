@@ -1,26 +1,31 @@
 <?php
+//variable empeche la redirection du system de connexion
 $page_no_redirection = '1';
 
-include ('includes/header.php');
+include ('../shared/header.php');
 
 $connect = 0 ;
-//----------authentification--------------
+//authentification grace a l'api et enregistrement des variables de sessions
 if(!empty($_POST['login'])){
 
     $url = "http://localhost/HelpdeskSolution/front/connect/'".$_POST['login']."'/'".$_POST['mdp']."'";
     $raw = file_get_contents($url);
     $json = json_decode($raw);
-    if(isset($json[0] -> IDUSERS)){
+    if(!empty($json[0] -> IDUSERS)){
         $connect = 1;
         $sess = session_id();
         $_SESSION['login'] = TRUE;
         $_SESSION['error'] = FALSE;
         $_SESSION['nom'] = $_POST['login'];
         $_SESSION['id'] = $json[0] -> IDUSERS;
-        $_SESSION['role'] = $json[0] -> IDROLE;
+        $_SESSION['role'] = $json[0] -> Privilege;
         $_SESSION['societe'] = $json[0] -> IDSOCIETE;
     }
+   // var_dump($_SESSION);
+    //echo "<br>";
+    //var_dump($json[0]);
 }
+//Formulaire recuperant les valeurs de connexion
 if(empty($_POST['login']) || $connect == 0 ){
     echo "
             <div class='bloc_central'>
@@ -46,9 +51,9 @@ if(empty($_POST['login']) || $connect == 0 ){
 
 	";
 }
-//quand tout est bon, affichage de la page normale
+//quand tout est bon, redirection vers index.php
 if(isset($_POST['login']) && $connect != 0){
-	echo"<script language='javascript'>document.location='index.php?id=".$sess."'</script>";
+	echo"<script language='javascript'>document.location='../../index.php?id=".$sess."'</script>";
 }
-include ('includes/footer.php');
+include ('../shared/footer.php');
 ?>

@@ -13,7 +13,7 @@
 	display: none;
 }
 #topnav_menu {
-	margin-left: calc(100% - 660px);
+	margin-left: calc(100% - 832px);
 	margin-top: 4px;
 }
 .title {
@@ -188,6 +188,13 @@
 		transform: rotate(-45deg);
 	}
 }
+.bloc_ticket{
+	margin-left: 30px;
+	margin-bottom: 15px;
+	padding: 25px;
+	border: 1px solid;
+	padding-bottom: 0px;
+}
 
 .nav_bar{
 	margin: 0 auto;
@@ -197,15 +204,13 @@
 }
 .nav_bar .ul_bar{
 	list-style-type: none;
-	padding-left: 10px;
-	padding-right: 10px;
 }
 .nav_bar .ul_bar .li_bar{
 	float: left;
 	width: 135px;
 	text-align: center;
 	position: relative;
-	margin-top: 5px;
+	margin-top: 7px;
 }
 .nav_bar .a_bar{
 	display: block;
@@ -235,7 +240,7 @@
 	text-align: left;
 }
 .sous a{
-	margin-left: 0px;
+	margin-left: 20px;
 	border-bottom: none;
 }
 .sous a:hover{
@@ -247,8 +252,6 @@
 	content:" ▼";
 	font-size: 12px;
 }
-@import url(http://fonts.googleapis.com/css?family=Montserrat);
-
 * { 
 	-moz-box-sizing: border-box; 
 	-webkit-box-sizing: border-box; 
@@ -260,8 +263,16 @@ ul {
   padding: 0;
   margin: 0;
 }
-
-
+.project_foreach{
+	border: 1px solid;
+	width: 95%;
+	padding: 30px;
+	margin: auto;
+}
+.flex{
+	display: flex;
+    flex-wrap: wrap;
+}
 html{
 	height: 100%;
 }
@@ -269,7 +280,7 @@ html{
 	width: 100%;
 	text-align:center;
 	display: inline-block;
-	min-height: calc(200% - 250px);
+	min-height: calc(100% - 200px);
 	z-index: -1;
 }
 .button_header{
@@ -345,7 +356,7 @@ body{
 	width: 100%;
 	text-align:center;
 	display: inline-block;
-	min-height: calc(100% - 200px);
+	min-height: calc(100% - 100px);
 	z-index: -1;
 }
 .center_mention{
@@ -368,7 +379,7 @@ body{
 }
 a{
 	font-family:arial, sans-serif;
-	color: white;
+	color: black;
 	text-decoration: none!important;
 	font-weight: bold;
 	margin: 5px;
@@ -576,6 +587,33 @@ td{
     color: black;
     padding: 5px;
 }
-.user_detail_ticket{
-	text-align: left;
+.left_detail_ticket{
+	margin-left: calc(-100% + 200px);
+}
+.right_detail_ticket{
+	margin-left: calc(100% - 200px);
+}
+.ticket_vide{
+	color: rgb(161,161,161);
+    margin: auto;
+}
+.tableau_ticket_vide{
+	color: rgb(161,161,161);
+    margin: auto;
+	border: 1px solid black;
+	margin-top: 33px;
+    position: absolute;
+    width: 90%;
+    height: 150px;
+    line-height: 9;
+}
+.ticket_delet{
+    position: relative;
+    top: -81%;
+    right: -56%;
+}
+.select_role{
+	max-height: 250px;
+	width: 395px;
+	margin-top: -20px;
 }
